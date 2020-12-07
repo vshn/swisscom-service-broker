@@ -9,7 +9,7 @@ DOCKER_CMD   ?= docker
 DOCKER_ARGS  ?= --rm --user "$$(id -u)" --volume "$${PWD}:/src" --workdir /src
 
 # Project parameters
-BINARY_NAME ?= swisscom-service-broker-poc
+BINARY_NAME ?= swisscom-service-broker
 
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* || (echo "command failed $$?"; exit 1))
 
@@ -39,7 +39,7 @@ build:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -v \
 		-o $(BINARY_NAME) \
 		-ldflags "-X main.Version=$(VERSION) -X 'main.BuildDate=$(shell date)'" \
-		cmd/broker/main.go
+		cmd/swisscom-service-broker/main.go
 	@echo built '$(VERSION)'
 
 .PHONY: test
@@ -48,7 +48,7 @@ test:
 
 .PHONY: run
 run:
-	go run cmd/broker/main.go
+	go run cmd/swisscom-service-broker/main.go
 
 .PHONY: clean
 clean:
