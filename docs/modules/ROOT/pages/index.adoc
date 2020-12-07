@@ -1,0 +1,3 @@
+= Swisscom Service Broker
+
+A customized implementation of the https://github.com/vshn/crossplane-service-broker[VSHN crossplane service broker].

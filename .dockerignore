@@ -1,0 +1,7 @@
+.*ignore
+*.md
+.git/
+Dockerfile
+swisscom-service-broker
+__debug_bin
+deploy/

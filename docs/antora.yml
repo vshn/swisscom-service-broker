@@ -1,0 +1,6 @@
+name: swisscom-service-broker
+title: Swisscom Service Broker
+version: master
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc
