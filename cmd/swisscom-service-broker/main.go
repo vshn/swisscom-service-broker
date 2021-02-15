@@ -7,13 +7,18 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"syscall"
 	"time"
 
 	"code.cloudfoundry.org/lager"
 	"github.com/gorilla/mux"
 	"github.com/vshn/crossplane-service-broker/pkg/api"
+	"github.com/vshn/crossplane-service-broker/pkg/brokerapi"
+	"github.com/vshn/crossplane-service-broker/pkg/config"
+	"github.com/vshn/crossplane-service-broker/pkg/crossplane"
+	"k8s.io/client-go/tools/clientcmd"
+
+	"github.com/vshn/swisscom-service-broker/pkg/custom"
 )
 
 const (
@@ -35,29 +40,46 @@ func main() {
 		cancel()
 	}()
 
-	if err := run(ctx, signalChan, logger); err != nil {
+	if err := run(signalChan, logger); err != nil {
 		logger.Error("application  run failed", err)
 		os.Exit(exitCodeErr)
 	}
 }
 
-func run(ctx context.Context, signalChan chan os.Signal, logger lager.Logger) error {
-	cfg, err := readAppConfig()
+func run(signalChan chan os.Signal, logger lager.Logger) error {
+	cfg, err := config.ReadConfig(os.Getenv)
 	if err != nil {
 		return fmt.Errorf("unable to read app env: %w", err)
+	}
+	rConfig, err := clientcmd.BuildConfigFromFlags("", cfg.Kubeconfig)
+	if err != nil {
+		return fmt.Errorf("unable to load k8s REST config: %w", err)
 	}
 
 	router := mux.NewRouter()
 
-	a := api.New(logger.WithData(lager.Data{"component": "api"}))
+	cp, err := crossplane.New(cfg.ServiceIDs, cfg.Namespace, rConfig)
+	if err != nil {
+		return err
+	}
+
+	customAPIHandler := custom.NewAPIHandler(cp, logger.WithData(lager.Data{"component": "custom"}))
+	custom.NewAPI(router, customAPIHandler, cfg.Username, cfg.Password, logger)
+
+	b, err := brokerapi.New(cp, logger.WithData(lager.Data{"component": "brokerapi"}))
+	if err != nil {
+		return err
+	}
+
+	a := api.New(b, cfg.Username, cfg.Password, logger.WithData(lager.Data{"component": "api"}))
 	router.NewRoute().Handler(a)
 
 	srv := http.Server{
-		Addr:           cfg.listenAddr,
+		Addr:           cfg.ListenAddr,
 		Handler:        router,
-		ReadTimeout:    cfg.readTimeout,
-		WriteTimeout:   cfg.writeTimeout,
-		MaxHeaderBytes: cfg.maxHeaderBytes,
+		ReadTimeout:    cfg.ReadTimeout,
+		WriteTimeout:   cfg.WriteTimeout,
+		MaxHeaderBytes: cfg.MaxHeaderBytes,
 	}
 
 	go func() {
@@ -80,41 +102,3 @@ func run(ctx context.Context, signalChan chan os.Signal, logger lager.Logger) er
 	defer cancel()
 	return srv.Shutdown(graceCtx)
 }
-
-type appConfig struct {
-	listenAddr     string
-	readTimeout    time.Duration
-	writeTimeout   time.Duration
-	maxHeaderBytes int
-}
-
-func readAppConfig() (*appConfig, error) {
-	cfg := appConfig{
-		listenAddr: os.Getenv("OSB_HTTP_LISTEN_ADDR"),
-	}
-
-	if cfg.listenAddr == "" {
-		cfg.listenAddr = ":8080"
-	}
-
-	rt, err := time.ParseDuration(os.Getenv("OSB_HTTP_READ_TIMEOUT"))
-	if err != nil {
-		rt = 180 * time.Second
-	}
-	cfg.readTimeout = rt
-
-	wt, err := time.ParseDuration(os.Getenv("OSB_HTTP_WRITE_TIMEOUT"))
-	if err != nil {
-		wt = 180 * time.Second
-	}
-	cfg.readTimeout = wt
-
-	mhb, err := strconv.Atoi(os.Getenv("OSB_HTTP_MAX_HEADER_BYTES"))
-	if err != nil {
-		mhb = 1 << 20 // 1 MB
-	}
-	cfg.maxHeaderBytes = mhb
-
-	return &cfg, nil
-}
-
