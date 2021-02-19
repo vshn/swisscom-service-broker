@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swisscom-service-broker-redis
+  namespace: swisscom-service-broker
+spec:
+  template:
+    spec:
+      containers:
+        - name: swisscom-service-broker
+          image: $E2E_IMAGE
+          imagePullPolicy: Never
+          env:
+            - name: OSB_USERNAME
+              value: test
+            - name: OSB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: swisscom-service-broker
+                  key: password
+            - name: OSB_NAMESPACE
+              value: test
+            - name: OSB_SERVICE_IDS
+              value: test

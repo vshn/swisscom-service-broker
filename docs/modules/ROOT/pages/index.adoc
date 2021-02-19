@@ -1,3 +1,3 @@
-= Swisscom Service Broker
+= Crossplane Service Broker
 
-A customized implementation of the https://github.com/vshn/crossplane-service-broker[VSHN crossplane service broker].
+An https://github.com/openservicebrokerapi/servicebroker[Open Service Broker] implementation using https://crossplane.io[Crossplane] for provisioning of Redis & MariaDB services.

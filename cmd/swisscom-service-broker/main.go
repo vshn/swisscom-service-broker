@@ -64,12 +64,9 @@ func run(signalChan chan os.Signal, logger lager.Logger) error {
 	}
 
 	customAPIHandler := custom.NewAPIHandler(cp, logger.WithData(lager.Data{"component": "custom"}))
-	custom.NewAPI(router, customAPIHandler, cfg.Username, cfg.Password, logger)
+	custom.NewAPI(router.NewRoute().Subrouter(), customAPIHandler, cfg.Username, cfg.Password, logger)
 
-	b, err := brokerapi.New(cp, logger.WithData(lager.Data{"component": "brokerapi"}))
-	if err != nil {
-		return err
-	}
+	b := brokerapi.New(cp, logger.WithData(lager.Data{"component": "brokerapi"}))
 
 	a := api.New(b, cfg.Username, cfg.Password, logger.WithData(lager.Data{"component": "api"}))
 	router.NewRoute().Handler(a)

@@ -13,12 +13,14 @@ import (
 	"github.com/vshn/crossplane-service-broker/pkg/reqcontext"
 )
 
+// API exposes the custom api handlers specific for this broker.
 type API struct {
-	handler CustomAPI
+	handler APISpec
 	logger  lager.Logger
 }
 
-func NewAPI(router *mux.Router, handler CustomAPI, username, password string, logger lager.Logger) *API {
+// NewAPI registers the routes and middlewares.
+func NewAPI(router *mux.Router, handler APISpec, username, password string, logger lager.Logger) *API {
 	a := API{
 		handler: handler,
 		logger:  logger,
@@ -78,6 +80,7 @@ func (a API) handleAPIError(rctx *reqcontext.ReqContext, w http.ResponseWriter, 
 	}
 }
 
+// Endpoints lists service endpoints
 func (a API) Endpoints(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -94,6 +97,7 @@ func (a API) Endpoints(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// ServiceUsage returns service usage
 func (a API) ServiceUsage(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -110,6 +114,7 @@ func (a API) ServiceUsage(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// CreateUpdateServiceDefinition is not implemented
 func (a API) CreateUpdateServiceDefinition(w http.ResponseWriter, req *http.Request) {
 	rctx := reqcontext.NewReqContext(req.Context(), a.logger, nil)
 	rctx.Logger.Info("endpoints")
@@ -129,6 +134,7 @@ func (a API) CreateUpdateServiceDefinition(w http.ResponseWriter, req *http.Requ
 	a.respond(w, http.StatusNoContent, nil)
 }
 
+// DeleteServiceDefinition is not implemented
 func (a API) DeleteServiceDefinition(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id := vars["id"]
@@ -146,6 +152,7 @@ func (a API) DeleteServiceDefinition(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusNoContent, nil)
 }
 
+// CreateBackup is not implemented
 func (a API) CreateBackup(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -169,6 +176,7 @@ func (a API) CreateBackup(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusCreated, b)
 }
 
+// DeleteBackup is not implemented
 func (a API) DeleteBackup(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -187,6 +195,7 @@ func (a API) DeleteBackup(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// Backup is not implemented
 func (a API) Backup(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -205,6 +214,7 @@ func (a API) Backup(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// ListBackups is not implemented
 func (a API) ListBackups(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -221,6 +231,7 @@ func (a API) ListBackups(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// RestoreBackup is not implemented
 func (a API) RestoreBackup(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -247,6 +258,7 @@ func (a API) RestoreBackup(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// RestoreStatus is not implemented
 func (a API) RestoreStatus(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
@@ -268,6 +280,7 @@ func (a API) RestoreStatus(w http.ResponseWriter, req *http.Request) {
 	a.respond(w, http.StatusOK, r)
 }
 
+// APIDocs is not implemented
 func (a API) APIDocs(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	instanceID := vars["service_instance_id"]
