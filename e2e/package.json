@@ -1,0 +1,6 @@
+{
+  "name": "swisscom-service-broker",
+  "devDependencies": {
+    "bats": "1.2.1"
+  }
+}

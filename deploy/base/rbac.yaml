@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: swisscom-service-broker
+subjects:
+  - kind: ServiceAccount
+    name: swisscom-service-broker
+    namespace: swisscom-service-broker
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: crossplane-edit
