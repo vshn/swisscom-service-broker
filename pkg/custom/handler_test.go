@@ -15,7 +15,6 @@ import (
 	"github.com/vshn/crossplane-service-broker/pkg/integration"
 	"github.com/vshn/crossplane-service-broker/pkg/reqcontext"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,7 +30,7 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 		args      args
 		want      []Endpoint
 		wantErr   error
-		resources func() (func(c client.Client) error, []runtime.Object)
+		resources func() (func(c client.Client) error, []client.Object)
 	}{
 		{
 			name: "requires instance to be ready before getting endpoints",
@@ -39,9 +38,9 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 				ctx:        ctx,
 				instanceID: "1-1-1",
 			},
-			resources: func() (func(c client.Client) error, []runtime.Object) {
+			resources: func() (func(c client.Client) error, []client.Object) {
 				servicePlan := integration.NewTestServicePlan("1", "1-1", crossplane.RedisService)
-				objs := []runtime.Object{
+				objs := []client.Object{
 					integration.NewTestService("1", crossplane.RedisService),
 					servicePlan.Composition,
 					integration.NewTestInstance("1-1-1", servicePlan, crossplane.RedisService, "", ""),
@@ -57,10 +56,10 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 				ctx:        ctx,
 				instanceID: "1-1-1",
 			},
-			resources: func() (func(c client.Client) error, []runtime.Object) {
+			resources: func() (func(c client.Client) error, []client.Object) {
 				servicePlan := integration.NewTestServicePlan("1", "1-1", crossplane.RedisService)
 				instance := integration.NewTestInstance("1-1-1", servicePlan, crossplane.RedisService, "", "")
-				objs := []runtime.Object{
+				objs := []client.Object{
 					integration.NewTestService("1", crossplane.RedisService),
 					integration.NewTestServicePlan("1", "1-2", crossplane.RedisService).Composition,
 					servicePlan.Composition,

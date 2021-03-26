@@ -3,12 +3,13 @@ package custom
 import (
 	"errors"
 	"net/http"
-	"strconv"
 
 	"code.cloudfoundry.org/lager"
 	"github.com/pivotal-cf/brokerapi/v7/domain/apiresponses"
 	"github.com/vshn/crossplane-service-broker/pkg/crossplane"
 	"github.com/vshn/crossplane-service-broker/pkg/reqcontext"
+
+	xrv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 var errNotImplemented = apiresponses.NewFailureResponseBuilder(
@@ -39,33 +40,41 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 		return nil, apiresponses.ErrInstanceDoesNotExist
 	}
 
-	sb, err := crossplane.ServiceBinderFactory(h.c, instance.Labels.ServiceName, instance.ID(), instance.ResourceRefs(), instance.Parameters(), h.logger)
+	// Get connection details of the actual Galera cluster
+	if instance.Labels.ServiceName == crossplane.MariaDBDatabaseService {
+		parentRef, err := instance.ParentReference()
+		if err != nil {
+			return nil, err
+		}
+		instance, _, exists, err = h.c.FindInstanceWithoutPlan(rctx, parentRef)
+		if err != nil {
+			return nil, err
+		}
+		if !exists {
+			return nil, apiresponses.ErrInstanceDoesNotExist
+		}
+	}
+
+	connectionDetails, err := h.c.GetConnectionDetails(rctx.Context, instance.Composite)
 	if err != nil {
 		return nil, err
 	}
 
-	creds, err := sb.GetBinding(rctx.Context, instanceID)
-	if err != nil {
-		return nil, err
-	}
+	dest := string(connectionDetails.Data[xrv1.ResourceCredentialsSecretEndpointKey])
 
 	endpoints := []Endpoint{
 		{
-			Destination: creds["host"].(string),
-			Ports:       strconv.Itoa(creds["port"].(int)),
+			Destination: dest,
+			Ports:       string(connectionDetails.Data[xrv1.ResourceCredentialsSecretPortKey]),
 			Protocol:    "tcp",
 		},
 	}
 	if instance.Labels.ServiceName == crossplane.RedisService {
-		sentinels := creds["sentinels"].([]crossplane.Credentials)
-		for _, v := range sentinels {
-			endpoints = append(endpoints, Endpoint{
-				Destination: v["host"].(string),
-				Ports:       strconv.Itoa(v["port"].(int)),
-				Protocol:    "tcp",
-			})
-		}
-
+		endpoints = append(endpoints, Endpoint{
+			Destination: dest,
+			Ports:       string(connectionDetails.Data["sentinelPort"]),
+			Protocol:    "tcp",
+		})
 	}
 	return endpoints, nil
 }
