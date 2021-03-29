@@ -2,6 +2,7 @@ package custom
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"code.cloudfoundry.org/lager"
@@ -61,11 +62,16 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 	}
 
 	dest := string(connectionDetails.Data[xrv1.ResourceCredentialsSecretEndpointKey])
+	port := string(connectionDetails.Data[xrv1.ResourceCredentialsSecretPortKey])
+
+	if len(dest) == 0 || len(port) == 0 {
+		return nil, fmt.Errorf("instance %q is not yet ready", instanceID)
+	}
 
 	endpoints := []Endpoint{
 		{
 			Destination: dest,
-			Ports:       string(connectionDetails.Data[xrv1.ResourceCredentialsSecretPortKey]),
+			Ports:       port,
 			Protocol:    "tcp",
 		},
 	}
