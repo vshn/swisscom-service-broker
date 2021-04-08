@@ -146,8 +146,8 @@ github.com/cpuguy83/go-md2man v1.0.10/go.mod h1:SmD6nW6nTyfqj6ABTjUi3V3JVMnlJmwc
 github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7DoTY=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/crossplane/crossplane v1.1.0 h1:7q2JfGUSo3hqL43acO3efRYP+p69KgRF8XS/qAvu188=
-github.com/crossplane/crossplane v1.1.0/go.mod h1:8tVfVTCve92BynV99h2cHOojZr6j42IZlcGrc+0nnYo=
+github.com/crossplane/crossplane v1.1.1 h1:Gqfh648z0nud312GueiK8x4OeY5vSD3sOxFOFLGB1KY=
+github.com/crossplane/crossplane v1.1.1/go.mod h1:8tVfVTCve92BynV99h2cHOojZr6j42IZlcGrc+0nnYo=
 github.com/crossplane/crossplane-runtime v0.13.0 h1:TFeItxtW32/fETB9be0AsEha/ur0bbrtQRocC+Jd6RI=
 github.com/crossplane/crossplane-runtime v0.13.0/go.mod h1:Bc54/KBvV9ld/tvervcnhcSzk13FYguTqmYt72Mybps=
 github.com/davecgh/go-spew v0.0.0-20151105211317-5215b55f46b2/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -611,8 +611,8 @@ github.com/urfave/cli v1.20.0/go.mod h1:70zkFmudgCuE/ngEzBv17Jvp/497gISqfk5gWijb
 github.com/vdemeester/k8s-pkg-credentialprovider v1.18.1-0.20201019120933-f1d16962a4db/go.mod h1:grWy0bkr1XO6hqbaaCKaPXqkBVlMGHYG6PGykktwbJc=
 github.com/vektah/gqlparser v1.1.2/go.mod h1:1ycwN7Ij5njmMkPPAOaRFY4rET2Enx7IkVv3vaXspKw=
 github.com/vmware/govmomi v0.20.3/go.mod h1:URlwyTFZX72RmxtxuaFL2Uj3fD1JTvZdx59bHWk6aFU=
-github.com/vshn/crossplane-service-broker v0.2.0 h1:wasAyj430KyeTeKb+svBShK4wTvOZaQIsXrwTQNDpSI=
-github.com/vshn/crossplane-service-broker v0.2.0/go.mod h1:XRoADCocVBmhCFaYy/3XXBhOZjf5/xBs8bn60lyTz5k=
+github.com/vshn/crossplane-service-broker v0.3.0 h1:YwXheNMc/rRFSI4g8uKlJp0OV4Verw3AH/y+Ws7wFAk=
+github.com/vshn/crossplane-service-broker v0.3.0/go.mod h1:eya8m5YFwcznwzOfcu2TQySlu1LN2322MCdgvOSck78=
 github.com/xiang90/probing v0.0.0-20160813154853-07dd2e8dfe18/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
