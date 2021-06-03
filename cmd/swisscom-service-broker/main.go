@@ -13,6 +13,7 @@ import (
 	"code.cloudfoundry.org/lager"
 	"github.com/gorilla/mux"
 	"github.com/vshn/crossplane-service-broker/pkg/api"
+	"github.com/vshn/crossplane-service-broker/pkg/api/auth"
 	"github.com/vshn/crossplane-service-broker/pkg/brokerapi"
 	"github.com/vshn/crossplane-service-broker/pkg/config"
 	"github.com/vshn/crossplane-service-broker/pkg/crossplane"
@@ -58,7 +59,7 @@ func run(signalChan chan os.Signal, logger lager.Logger) error {
 
 	router := mux.NewRouter()
 
-	cp, err := crossplane.New(cfg.ServiceIDs, cfg.Namespace, rConfig)
+	cp, err := crossplane.New(cfg, rConfig)
 	if err != nil {
 		return err
 	}
@@ -68,7 +69,8 @@ func run(signalChan chan os.Signal, logger lager.Logger) error {
 
 	b := brokerapi.New(cp, logger.WithData(lager.Data{"component": "brokerapi"}))
 
-	a := api.New(b, cfg.Username, cfg.Password, logger.WithData(lager.Data{"component": "api"}))
+	serviceBrokerCredential := auth.SingleCredential(cfg.Username, cfg.Password)
+	a := api.New(b, serviceBrokerCredential, &cfg.JWKeyRegister, logger.WithData(lager.Data{"component": "api"}))
 	router.NewRoute().Handler(a)
 
 	srv := http.Server{
