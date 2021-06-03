@@ -1,6 +1,6 @@
 module github.com/vshn/swisscom-service-broker
 
-go 1.15
+go 1.16
 
 require (
 	code.cloudfoundry.org/lager v2.0.0+incompatible
