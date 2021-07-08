@@ -82,14 +82,13 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 			Protocol:    "tcp",
 		})
 	}
-	if p, ok := connectionDetails.Data[crossplane.MetricsPortKey]; ok {
+	if p := string(connectionDetails.Data[crossplane.MetricsPortKey]); p != "" {
 		endpoints = append(endpoints, Endpoint{
 			Destination: dest,
-			Ports:       string(p),
+			Ports:       p,
 			Protocol:    "tcp",
 		})
 	}
-
 	return endpoints, nil
 }
 
