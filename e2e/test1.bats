@@ -18,6 +18,6 @@ DEBUG_DETIK="true"
   run kubectl apply -f debug/test1.yaml
   echo "$output"
 
-  try "at most 20 times every 2s to find 1 pod named 'swisscom-service-broker' with 'status' being 'running'"
+  try "at most 40 times every 2s to find 1 pod named 'swisscom-service-broker' with 'status' being 'running'"
 
 }
