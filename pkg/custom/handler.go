@@ -43,16 +43,9 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 
 	// Get connection details of the actual Galera cluster
 	if instance.Labels.ServiceName == crossplane.MariaDBDatabaseService {
-		parentRef, err := instance.ParentReference()
+		instance, err = h.getGaleraClusterFromDB(rctx, instance)
 		if err != nil {
 			return nil, err
-		}
-		instance, _, exists, err = h.c.FindInstanceWithoutPlan(rctx, parentRef)
-		if err != nil {
-			return nil, err
-		}
-		if !exists {
-			return nil, apiresponses.ErrInstanceDoesNotExist
 		}
 	}
 
@@ -82,6 +75,7 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 			Protocol:    "tcp",
 		})
 	}
+
 	if p := string(connectionDetails.Data[crossplane.MetricsPortKey]); p != "" {
 		endpoints = append(endpoints, Endpoint{
 			Destination: dest,
@@ -89,7 +83,23 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 			Protocol:    "tcp",
 		})
 	}
+
 	return endpoints, nil
+}
+
+func (h APIHandler) getGaleraClusterFromDB(rctx *reqcontext.ReqContext, db *crossplane.Instance) (*crossplane.Instance, error) {
+	pRef, err := db.ParentReference()
+	if err != nil {
+		return nil, err
+	}
+	c, _, ok, err := h.c.FindInstanceWithoutPlan(rctx, pRef)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, apiresponses.ErrInstanceDoesNotExist
+	}
+	return c, nil
 }
 
 // ServiceUsage is not implemented
