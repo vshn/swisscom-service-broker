@@ -22,18 +22,18 @@ var errNotImplemented = apiresponses.NewFailureResponseBuilder(
 
 // APIHandler handles the actual implementations and implements APISpec
 type APIHandler struct {
-	c      *crossplane.Crossplane
-	logger lager.Logger
+	cp  *crossplane.Crossplane
+	log lager.Logger
 }
 
 // NewAPIHandler sets up a new instance.
-func NewAPIHandler(c *crossplane.Crossplane, logger lager.Logger) *APIHandler {
-	return &APIHandler{c, logger}
+func NewAPIHandler(c *crossplane.Crossplane, log lager.Logger) *APIHandler {
+	return &APIHandler{c, log}
 }
 
 // Endpoints retrieves the endpoints using the service binder.
 func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([]Endpoint, error) {
-	instance, _, exists, err := h.c.FindInstanceWithoutPlan(rctx, instanceID)
+	instance, _, exists, err := h.cp.FindInstanceWithoutPlan(rctx, instanceID)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 		}
 	}
 
-	connectionDetails, err := h.c.GetConnectionDetails(rctx.Context, instance.Composite)
+	connectionDetails, err := h.cp.GetConnectionDetails(rctx.Context, instance.Composite)
 	if err != nil {
 		return nil, err
 	}
@@ -92,14 +92,14 @@ func (h APIHandler) getGaleraClusterFromDB(rctx *reqcontext.ReqContext, db *cros
 	if err != nil {
 		return nil, err
 	}
-	c, _, ok, err := h.c.FindInstanceWithoutPlan(rctx, pRef)
+	inst, _, ok, err := h.cp.FindInstanceWithoutPlan(rctx, pRef)
 	if err != nil {
 		return nil, err
 	}
 	if !ok {
 		return nil, apiresponses.ErrInstanceDoesNotExist
 	}
-	return c, nil
+	return inst, nil
 }
 
 // ServiceUsage is not implemented
