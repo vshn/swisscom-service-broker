@@ -22,18 +22,18 @@ var errNotImplemented = apiresponses.NewFailureResponseBuilder(
 
 // APIHandler handles the actual implementations and implements APISpec
 type APIHandler struct {
-	c      *crossplane.Crossplane
-	logger lager.Logger
+	cp  *crossplane.Crossplane
+	log lager.Logger
 }
 
 // NewAPIHandler sets up a new instance.
-func NewAPIHandler(c *crossplane.Crossplane, logger lager.Logger) *APIHandler {
-	return &APIHandler{c, logger}
+func NewAPIHandler(c *crossplane.Crossplane, log lager.Logger) *APIHandler {
+	return &APIHandler{c, log}
 }
 
 // Endpoints retrieves the endpoints using the service binder.
 func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([]Endpoint, error) {
-	instance, _, exists, err := h.c.FindInstanceWithoutPlan(rctx, instanceID)
+	instance, _, exists, err := h.cp.FindInstanceWithoutPlan(rctx, instanceID)
 	if err != nil {
 		return nil, err
 	}
@@ -43,20 +43,13 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 
 	// Get connection details of the actual Galera cluster
 	if instance.Labels.ServiceName == crossplane.MariaDBDatabaseService {
-		parentRef, err := instance.ParentReference()
+		instance, err = h.getGaleraClusterFromDB(rctx, instance)
 		if err != nil {
 			return nil, err
-		}
-		instance, _, exists, err = h.c.FindInstanceWithoutPlan(rctx, parentRef)
-		if err != nil {
-			return nil, err
-		}
-		if !exists {
-			return nil, apiresponses.ErrInstanceDoesNotExist
 		}
 	}
 
-	connectionDetails, err := h.c.GetConnectionDetails(rctx.Context, instance.Composite)
+	connectionDetails, err := h.cp.GetConnectionDetails(rctx.Context, instance.Composite)
 	if err != nil {
 		return nil, err
 	}
@@ -78,11 +71,35 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 	if instance.Labels.ServiceName == crossplane.RedisService {
 		endpoints = append(endpoints, Endpoint{
 			Destination: dest,
-			Ports:       string(connectionDetails.Data["sentinelPort"]),
+			Ports:       string(connectionDetails.Data[crossplane.SentinelPortKey]),
 			Protocol:    "tcp",
 		})
 	}
+
+	if p := string(connectionDetails.Data[crossplane.MetricsPortKey]); p != "" {
+		endpoints = append(endpoints, Endpoint{
+			Destination: dest,
+			Ports:       p,
+			Protocol:    "tcp",
+		})
+	}
+
 	return endpoints, nil
+}
+
+func (h APIHandler) getGaleraClusterFromDB(rctx *reqcontext.ReqContext, db *crossplane.Instance) (*crossplane.Instance, error) {
+	pRef, err := db.ParentReference()
+	if err != nil {
+		return nil, err
+	}
+	inst, _, ok, err := h.cp.FindInstanceWithoutPlan(rctx, pRef)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, apiresponses.ErrInstanceDoesNotExist
+	}
+	return inst, nil
 }
 
 // ServiceUsage is not implemented

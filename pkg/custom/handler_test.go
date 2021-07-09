@@ -90,6 +90,51 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 			wantErr: nil,
 		},
 		{
+			name: "creates a redis instance with metrics endpoint and gets the endpoints",
+			args: args{
+				ctx:        ctx,
+				instanceID: "1-1-1",
+			},
+			resources: func() (func(c client.Client) error, []client.Object) {
+				servicePlan := integration.NewTestServicePlan("1", "1-1", crossplane.RedisService)
+				instance := integration.NewTestInstance("1-1-1", servicePlan, crossplane.RedisService, "", "")
+				objs := []client.Object{
+					integration.NewTestService("1", crossplane.RedisService),
+					integration.NewTestServicePlan("1", "1-2", crossplane.RedisService).Composition,
+					servicePlan.Composition,
+					instance,
+					integration.NewTestSecret(integration.TestNamespace, "1-1-1", map[string]string{
+						xrv1.ResourceCredentialsSecretPortKey:     "1234",
+						xrv1.ResourceCredentialsSecretEndpointKey: "localhost",
+						xrv1.ResourceCredentialsSecretPasswordKey: "supersecret",
+						crossplane.SentinelPortKey:                "21234",
+						crossplane.MetricsPortKey:                 "21548",
+					}),
+				}
+				return func(c client.Client) error {
+					return integration.UpdateInstanceConditions(ctx, c, servicePlan, instance, xrv1.TypeReady, corev1.ConditionTrue, xrv1.ReasonAvailable)
+				}, objs
+			},
+			want: []Endpoint{
+				{
+					Destination: "localhost",
+					Ports:       "1234",
+					Protocol:    "tcp",
+				},
+				{
+					Destination: "localhost",
+					Ports:       "21234",
+					Protocol:    "tcp",
+				},
+				{
+					Destination: "localhost",
+					Ports:       "21548",
+					Protocol:    "tcp",
+				},
+			},
+			wantErr: nil,
+		},
+		{
 			name: "creates a redis instance and gets the endpoints while not ready yet",
 			args: args{
 				ctx:        ctx,
@@ -116,6 +161,52 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: errors.New(`instance "1-1-1" is not yet ready`),
+		},
+		{
+			name: "creates a mariadb instance with metrics endpoints and gets the endpoint",
+			args: args{
+				ctx:        ctx,
+				instanceID: "1-2-1",
+			},
+			resources: func() (func(c client.Client) error, []client.Object) {
+				servicePlan := integration.NewTestServicePlan("1", "1-1", crossplane.MariaDBService)
+				instance := integration.NewTestInstance("1-1-1", servicePlan, crossplane.MariaDBService, "", "")
+				dbServicePlan := integration.NewTestServicePlan("2", "2-1", crossplane.MariaDBDatabaseService)
+				dbInstance := integration.NewTestInstance("1-2-1", dbServicePlan, crossplane.MariaDBDatabaseService, "", "1-1-1")
+				objs := []client.Object{
+					integration.NewTestService("1", crossplane.MariaDBService),
+					integration.NewTestService("2", crossplane.MariaDBDatabaseService),
+					servicePlan.Composition,
+					instance,
+					dbServicePlan.Composition,
+					dbInstance,
+					integration.NewTestSecret(integration.TestNamespace, "1-1-1", map[string]string{
+						xrv1.ResourceCredentialsSecretPortKey:     "1234",
+						xrv1.ResourceCredentialsSecretEndpointKey: "localhost",
+						xrv1.ResourceCredentialsSecretPasswordKey: "supersecret",
+						"monitoringPort":                          "25197",
+					}),
+				}
+				return func(c client.Client) error {
+					if err := integration.UpdateInstanceConditions(ctx, c, servicePlan, instance, xrv1.TypeReady, corev1.ConditionTrue, xrv1.ReasonAvailable); err != nil {
+						return err
+					}
+					return integration.UpdateInstanceConditions(ctx, c, dbServicePlan, dbInstance, xrv1.TypeReady, corev1.ConditionTrue, xrv1.ReasonAvailable)
+				}, objs
+			},
+			want: []Endpoint{
+				{
+					Destination: "localhost",
+					Ports:       "1234",
+					Protocol:    "tcp",
+				},
+				{
+					Destination: "localhost",
+					Ports:       "25197",
+					Protocol:    "tcp",
+				},
+			},
+			wantErr: nil,
 		},
 	}
 
