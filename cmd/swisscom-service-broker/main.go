@@ -67,7 +67,11 @@ func run(signalChan chan os.Signal, logger lager.Logger) error {
 	customAPIHandler := custom.NewAPIHandler(cp, logger.WithData(lager.Data{"component": "custom"}))
 	custom.NewAPI(router.NewRoute().Subrouter(), customAPIHandler, cfg.Username, cfg.Password, logger)
 
-	b := brokerapi.New(cp, logger.WithData(lager.Data{"component": "brokerapi"}))
+	pc, err := crossplane.ParsePlanUpdateRules(cfg.PlanUpdateSizeRule, cfg.PlanUpdateSLARule)
+	if err != nil {
+		return err
+	}
+	b := brokerapi.New(cp, logger.WithData(lager.Data{"component": "brokerapi"}), pc)
 
 	serviceBrokerCredential := auth.SingleCredential(cfg.Username, cfg.Password)
 	a := api.New(b, serviceBrokerCredential, cfg.JWKeyRegister, logger.WithData(lager.Data{"component": "api"}))
