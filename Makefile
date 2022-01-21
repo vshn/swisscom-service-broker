@@ -27,12 +27,8 @@ test: ## Run tests
 
 # See https://storage.googleapis.com/kubebuilder-tools/ for list of supported K8s versions
 #
-# A note on 1.20.2:
-# 1.20.2 is not (yet) supported, because starting the Kubernetes API controller with
-# `--insecure-port` and `--insecure-bind-address` flags is now deprecated,
-# but envtest was not updated accordingly.
-#integration-test: export ENVTEST_K8S_VERSION = 1.20.2
-integration-test: export ENVTEST_K8S_VERSION = 1.19.2
+# 1.20.3 is not supported
+integration-test: export ENVTEST_K8S_VERSION = 1.21.2
 integration-test: export KUBEBUILDER_ATTACH_CONTROL_PLANE_OUTPUT = $(INTEGRATION_TEST_DEBUG_OUTPUT)
 integration-test: $(CROSSPLANE_CRDS) ## Run integration tests with envtest
 	test -f ${ENVTEST_ASSETS_DIR}/setup-envtest.sh || \
