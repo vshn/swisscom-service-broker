@@ -11,7 +11,7 @@ require (
 	github.com/hashicorp/go-getter v1.4.0 // indirect
 	github.com/pivotal-cf/brokerapi/v7 v7.5.0
 	github.com/stretchr/testify v1.7.0
-	github.com/vshn/crossplane-service-broker v0.7.0
+	github.com/vshn/crossplane-service-broker v0.8.0
 	go.uber.org/tools v0.0.0-20190618225709-2cfd321de3ee // indirect
 	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602 // indirect
 	gonum.org/v1/netlib v0.0.0-20190331212654-76723241ea4e // indirect
