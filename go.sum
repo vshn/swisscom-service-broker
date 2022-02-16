@@ -827,6 +827,8 @@ github.com/vshn/crossplane-service-broker v0.6.0 h1:aYBSyLB2a//huDwIHGMlG/Z1gZDR
 github.com/vshn/crossplane-service-broker v0.6.0/go.mod h1:sjSzl8wV1A+BeJb9/cEOxLqRHfYrpajayzRkn3JtaCM=
 github.com/vshn/crossplane-service-broker v0.7.0 h1:zCztXEiM81rUmr/qcTZTuNyVN9BCnKDsp7UtpAaZOSU=
 github.com/vshn/crossplane-service-broker v0.7.0/go.mod h1:aiC0rm4y93cXJr2EtnWN2RqVVVjwzK6M08UeRA9Heso=
+github.com/vshn/crossplane-service-broker v0.8.0 h1:MxP8q/nYdbtj+DyHMwah1lSOgrfFTMohKmn0DWOHqrM=
+github.com/vshn/crossplane-service-broker v0.8.0/go.mod h1:aiC0rm4y93cXJr2EtnWN2RqVVVjwzK6M08UeRA9Heso=
 github.com/xiang90/probing v0.0.0-20160813154853-07dd2e8dfe18/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca h1:1CFlNzQhALwjS9mBAUkycX616GzgsuYUOCHA5+HSlXI=
