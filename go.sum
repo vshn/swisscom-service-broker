@@ -760,8 +760,8 @@ github.com/valyala/tcplisten v0.0.0-20161114210144-ceec8f93295a/go.mod h1:v3UYOV
 github.com/vdemeester/k8s-pkg-credentialprovider v1.19.7/go.mod h1:K2nMO14cgZitdwBqdQps9tInJgcaXcU/7q5F59lpbNI=
 github.com/vektah/gqlparser v1.1.2/go.mod h1:1ycwN7Ij5njmMkPPAOaRFY4rET2Enx7IkVv3vaXspKw=
 github.com/vmware/govmomi v0.20.3/go.mod h1:URlwyTFZX72RmxtxuaFL2Uj3fD1JTvZdx59bHWk6aFU=
-github.com/vshn/crossplane-service-broker v0.8.0 h1:MxP8q/nYdbtj+DyHMwah1lSOgrfFTMohKmn0DWOHqrM=
-github.com/vshn/crossplane-service-broker v0.8.0/go.mod h1:aiC0rm4y93cXJr2EtnWN2RqVVVjwzK6M08UeRA9Heso=
+github.com/vshn/crossplane-service-broker v0.9.0 h1:1epoRvKAuONovhPPhu0IFXgRiHsVDdAm9xu4dn2Dsyw=
+github.com/vshn/crossplane-service-broker v0.9.0/go.mod h1:aiC0rm4y93cXJr2EtnWN2RqVVVjwzK6M08UeRA9Heso=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca h1:1CFlNzQhALwjS9mBAUkycX616GzgsuYUOCHA5+HSlXI=
 github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca/go.mod h1:ce1O1j6UtZfjr22oyGxGLbauSBp2YVXpARAosm7dHBg=
