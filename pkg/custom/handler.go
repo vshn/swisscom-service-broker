@@ -71,15 +71,7 @@ func (h APIHandler) Endpoints(rctx *reqcontext.ReqContext, instanceID string) ([
 	if instance.Labels.ServiceName == crossplane.RedisService {
 		endpoints = append(endpoints, Endpoint{
 			Destination: dest,
-			Ports:       string(connectionDetails.Data[crossplane.SentinelPortKey]),
-			Protocol:    "tcp",
-		})
-	}
-
-	if p := string(connectionDetails.Data[crossplane.MetricsPortKey]); p != "" {
-		endpoints = append(endpoints, Endpoint{
-			Destination: dest,
-			Ports:       p,
+			Ports:       string(connectionDetails.Data["sentinelPort"]),
 			Protocol:    "tcp",
 		})
 	}
