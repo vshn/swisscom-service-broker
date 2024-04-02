@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	code.cloudfoundry.org/lager v2.0.0+incompatible
-	github.com/crossplane/crossplane-runtime v0.15.1-0.20211029211307-c72bcdd922eb
+	github.com/crossplane/crossplane-runtime v0.21.0-rc.0
 	github.com/gorilla/mux v1.8.0
 	github.com/pivotal-cf/brokerapi/v7 v7.5.0
 	github.com/stretchr/testify v1.7.2
