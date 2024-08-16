@@ -773,6 +773,12 @@ github.com/vektah/gqlparser v1.1.2/go.mod h1:1ycwN7Ij5njmMkPPAOaRFY4rET2Enx7IkVv
 github.com/vmware/govmomi v0.20.3/go.mod h1:URlwyTFZX72RmxtxuaFL2Uj3fD1JTvZdx59bHWk6aFU=
 github.com/vshn/crossplane-service-broker v0.10.0 h1:RRwprDXIsjeSxcbFxPCb2KsbCdzZA70et3t6iHei15s=
 github.com/vshn/crossplane-service-broker v0.10.0/go.mod h1:DdLyBzt/XLytmmOgXVySXcSZ6S1XIukBwrb3iSD7UXM=
+github.com/vshn/crossplane-service-broker v0.10.1-0.20240815224830-a07408884d88 h1:qeAAQCGZ8w9j0SWhTs+E2PRV9VqpZEIEw1xeKHOkqHA=
+github.com/vshn/crossplane-service-broker v0.10.1-0.20240815224830-a07408884d88/go.mod h1:DdLyBzt/XLytmmOgXVySXcSZ6S1XIukBwrb3iSD7UXM=
+github.com/vshn/crossplane-service-broker v0.10.1-0.20240815231136-1cc1c624a6df h1:GA6f96119ilK0P6ed4IUAz3SWaVYT/IKhPGl7495ha0=
+github.com/vshn/crossplane-service-broker v0.10.1-0.20240815231136-1cc1c624a6df/go.mod h1:DdLyBzt/XLytmmOgXVySXcSZ6S1XIukBwrb3iSD7UXM=
+github.com/vshn/crossplane-service-broker v0.10.1-0.20240815232113-512338665ada h1:60xDKE8CEzJe4vaQkSOxFOGRJinzCFmdwe96T9Stx5w=
+github.com/vshn/crossplane-service-broker v0.10.1-0.20240815232113-512338665ada/go.mod h1:DdLyBzt/XLytmmOgXVySXcSZ6S1XIukBwrb3iSD7UXM=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca h1:1CFlNzQhALwjS9mBAUkycX616GzgsuYUOCHA5+HSlXI=
 github.com/xlab/treeprint v0.0.0-20181112141820-a009c3971eca/go.mod h1:ce1O1j6UtZfjr22oyGxGLbauSBp2YVXpARAosm7dHBg=
