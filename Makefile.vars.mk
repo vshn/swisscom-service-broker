@@ -10,7 +10,7 @@ DOCKER_CMD   ?= docker
 DOCKER_ARGS  ?= --rm --user "$$(id -u)" --volume "$${PWD}:/src" --workdir /src
 
 KIND_VERSION ?= 0.11.1
-KIND_NODE_VERSION ?= v1.21.2
+KIND_NODE_VERSION ?= v1.28.0
 KIND ?= $(TESTBIN_DIR)/kind
 
 ENABLE_LEADER_ELECTION ?= false
@@ -25,7 +25,7 @@ E2E_REPO ?= local.dev/swisscom-service-broker/e2e
 E2E_IMG = $(E2E_REPO):$(E2E_TAG)
 
 TESTDATA_CRD_DIR = $(TESTDATA_DIR)/crds
-CROSSPLANE_VERSION = v1.0.0
+CROSSPLANE_VERSION = v1.15.3
 CROSSPLANE_CRDS = $(addprefix $(TESTDATA_CRD_DIR)/, apiextensions.crossplane.io_compositeresourcedefinitions.yaml \
 					apiextensions.crossplane.io_compositions.yaml \
 					pkg.crossplane.io_configurationrevisions.yaml \

@@ -8,5 +8,5 @@ package tools
 
 import (
 	// Required for the e2e-test
-	_ "sigs.k8s.io/kustomize/kustomize/v3"
+	_ "sigs.k8s.io/kustomize/kustomize/v5"
 )
