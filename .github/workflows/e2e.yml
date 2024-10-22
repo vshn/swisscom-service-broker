@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - kind-node-version: v1.21.2
+          - kind-node-version: v1.28.0
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Determine Go version from go.mod
@@ -33,4 +33,4 @@ jobs:
         with:
           report_paths: "**/e2e/report.xml"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          check_name: e2e-report (${{ matrix.kind-node-version }}
+          check_name: e2e-report (${{ matrix.kind-node-version }})

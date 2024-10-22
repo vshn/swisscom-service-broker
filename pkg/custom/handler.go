@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"code.cloudfoundry.org/lager"
-	"github.com/pivotal-cf/brokerapi/v7/domain/apiresponses"
+	"github.com/pivotal-cf/brokerapi/v8/domain/apiresponses"
 	"github.com/vshn/crossplane-service-broker/pkg/crossplane"
 	"github.com/vshn/crossplane-service-broker/pkg/reqcontext"
 

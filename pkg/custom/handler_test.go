@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	xrv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/pivotal-cf/brokerapi/v7/middlewares"
+	"github.com/pivotal-cf/brokerapi/v8/middlewares"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/vshn/crossplane-service-broker/pkg/crossplane"

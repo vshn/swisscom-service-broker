@@ -1,10 +1,14 @@
 resources:
   - ../../deploy/base
   - secret.yaml
-patchesStrategicMerge:
-  - deployment.yaml
 namespace: swisscom-service-broker
 
-commonLabels:
-  app.kubernetes.io/name: e2e
-  app.kubernetes.io/managed-by: kustomize
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/managed-by: kustomize
+      app.kubernetes.io/name: e2e
+patches:
+  - path: deployment.yaml
