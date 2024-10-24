@@ -10,7 +10,7 @@ DOCKER_CMD   ?= docker
 DOCKER_ARGS  ?= --rm --user "$$(id -u)" --volume "$${PWD}:/src" --workdir /src
 
 KIND_VERSION ?= 0.11.1
-KIND_NODE_VERSION ?= v1.21.2
+KIND_NODE_VERSION ?= v1.25.16
 KIND ?= $(TESTBIN_DIR)/kind
 
 ENABLE_LEADER_ELECTION ?= false
