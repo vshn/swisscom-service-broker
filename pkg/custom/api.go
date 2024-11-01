@@ -6,9 +6,9 @@ import (
 
 	"code.cloudfoundry.org/lager"
 	"github.com/gorilla/mux"
-	"github.com/pivotal-cf/brokerapi/v7/auth"
-	"github.com/pivotal-cf/brokerapi/v7/domain/apiresponses"
-	"github.com/pivotal-cf/brokerapi/v7/middlewares"
+	"github.com/pivotal-cf/brokerapi/v8/auth"
+	"github.com/pivotal-cf/brokerapi/v8/domain/apiresponses"
+	"github.com/pivotal-cf/brokerapi/v8/middlewares"
 	"github.com/vshn/crossplane-service-broker/pkg/api"
 	"github.com/vshn/crossplane-service-broker/pkg/reqcontext"
 )

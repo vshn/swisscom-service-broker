@@ -28,14 +28,13 @@ test: ## Run tests
 # See https://storage.googleapis.com/kubebuilder-tools/ for list of supported K8s versions
 #
 # 1.20.3 is not supported
-integration-test: export ENVTEST_K8S_VERSION = 1.21.2
+integration-test: export ENVTEST_K8S_VERSION = 1.28.2
 integration-test: export KUBEBUILDER_ATTACH_CONTROL_PLANE_OUTPUT = $(INTEGRATION_TEST_DEBUG_OUTPUT)
 integration-test: $(CROSSPLANE_CRDS) ## Run integration tests with envtest
-	test -f ${ENVTEST_ASSETS_DIR}/setup-envtest.sh || \
-		curl -sSLo ${ENVTEST_ASSETS_DIR}/setup-envtest.sh https://raw.githubusercontent.com/kubernetes-sigs/controller-runtime/master/hack/setup-envtest.sh
-	source ${ENVTEST_ASSETS_DIR}/setup-envtest.sh; \
-		fetch_envtest_tools $(ENVTEST_ASSETS_DIR); \
-		setup_envtest_env $(ENVTEST_ASSETS_DIR); \
+	go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest; \
+	setup-envtest use -p path 1.25.x!; \
+	source <(setup-envtest use -i -p env 1.25.x); \
+	cp $${KUBEBUILDER_ASSETS}/* ${TESTBIN_DIR}; \
 		go test -tags=integration -v ./... -coverprofile cover.out
 
 .PHONY: build
@@ -98,7 +97,7 @@ $(BIN_FILENAME):
 
 # TODO(mw): something with this target is off, $@ should be used instead of $*.yaml but I can't seem to make it work.
 $(TESTDATA_CRD_DIR)/%.yaml: $(testbin_created)
-	curl -sSLo $@ https://raw.githubusercontent.com/crossplane/crossplane/$(CROSSPLANE_VERSION)/cluster/charts/crossplane/crds/$*.yaml
+	curl -sSLo $@ https://raw.githubusercontent.com/crossplane/crossplane/$(CROSSPLANE_VERSION)/cluster/crds/$*.yaml
 
 ###
 ### KIND
