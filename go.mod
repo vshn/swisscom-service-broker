@@ -6,7 +6,7 @@ toolchain go1.23.2
 
 require (
 	code.cloudfoundry.org/lager v2.0.0+incompatible
-	github.com/crossplane/crossplane-runtime v1.16.0
+	github.com/crossplane/crossplane-runtime v1.18.0
 	github.com/gorilla/mux v1.8.1
 	github.com/pivotal-cf/brokerapi/v8 v8.2.3
 	github.com/stretchr/testify v1.9.0
@@ -32,7 +32,7 @@ require (
 	cloud.google.com/go/storage v1.38.0 // indirect
 	connectrpc.com/connect v1.17.0 // indirect
 	connectrpc.com/otelconnect v0.7.1 // indirect
-	dario.cat/mergo v1.0.0 // indirect
+	dario.cat/mergo v1.0.1 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/Microsoft/hcsshim v0.12.8 // indirect
