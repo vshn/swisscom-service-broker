@@ -10,7 +10,7 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/pivotal-cf/brokerapi/v8 v8.2.3
 	github.com/stretchr/testify v1.9.0
-	github.com/vshn/crossplane-service-broker v0.12.3
+	github.com/vshn/crossplane-service-broker v0.13.0
 	k8s.io/api v0.31.1
 	k8s.io/client-go v0.31.1
 	sigs.k8s.io/controller-runtime v0.19.0
