@@ -9,7 +9,7 @@ require (
 	github.com/crossplane/crossplane-runtime v1.16.0
 	github.com/gorilla/mux v1.8.1
 	github.com/pivotal-cf/brokerapi/v8 v8.2.3
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	github.com/vshn/crossplane-service-broker v0.13.0
 	k8s.io/api v0.31.1
 	k8s.io/client-go v0.31.1
