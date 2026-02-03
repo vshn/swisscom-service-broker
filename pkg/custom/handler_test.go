@@ -69,7 +69,6 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 						xrv1.ResourceCredentialsSecretPortKey:     "1234",
 						xrv1.ResourceCredentialsSecretEndpointKey: "localhost",
 						xrv1.ResourceCredentialsSecretPasswordKey: "supersecret",
-						"sentinelPort": "21234",
 					}),
 				}
 				return func(c client.Client) error {
@@ -80,11 +79,6 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 				{
 					Destination: "localhost",
 					Ports:       "1234",
-					Protocol:    "tcp",
-				},
-				{
-					Destination: "localhost",
-					Ports:       "21234",
 					Protocol:    "tcp",
 				},
 			},
@@ -108,7 +102,6 @@ func TestAPIHandler_Endpoints(t *testing.T) {
 						xrv1.ResourceCredentialsSecretPortKey:     "1234",
 						xrv1.ResourceCredentialsSecretEndpointKey: "",
 						xrv1.ResourceCredentialsSecretPasswordKey: "supersecret",
-						"sentinelPort": "21234",
 					}),
 				}
 				return func(c client.Client) error {
